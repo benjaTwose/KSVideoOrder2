@@ -3,18 +3,24 @@ package VideoOrderPack;
 
 import java.awt.*;
 import java.awt.event.*;
-
 import javax.swing.*;
  
 public class SwingControlDemo {
     
    private JFrame mainFrame;
    private JLabel headerLabel;
+   private JLabel headerLabel2;
+   private JLabel headerLabel3;
    private JPanel controlPanel;
+   private JPanel logPanel;
+   
+   private JPanel headerPanel;
+   
    public JTextArea commentTextArea;
    public JLabel lbcntvideos;
    public boolean initwalk=false; 
    public JTextField txtpathToSearch;
+   
 
    public SwingControlDemo(){
       prepareGUI();
@@ -27,55 +33,70 @@ public class SwingControlDemo {
 
    private void prepareGUI(){
       mainFrame = new JFrame("Reordenar Videos");
-      mainFrame.setSize(800,900);
-      // mainFrame.setLayout(new GridLayout(3,3));
+      mainFrame.setSize(600,700);
+      //mainFrame.setLayout(new GridLayout(2,2,10,10));
       mainFrame.setLayout(new FlowLayout());
       mainFrame.addWindowListener(new WindowAdapter() {
          public void windowClosing(WindowEvent windowEvent){
             System.exit(0);
          }        
       });    
-      headerLabel = new JLabel("",JLabel.CENTER);  
+      headerLabel = new JLabel("",JLabel.LEADING);
+      headerLabel.setFont(new Font(headerLabel.getName(), Font.PLAIN, 20));;
+      headerLabel2 = new JLabel("",JLabel.LEADING); 
+      headerLabel3 = new JLabel("",JLabel.LEADING);
       txtpathToSearch = new JTextField("D:\\FTPVideos");
-
+      txtpathToSearch.setEnabled(true);
       
-      controlPanel = new JPanel();
-      controlPanel.setLayout(new FlowLayout());
-      //controlPanel.setLayout(new GridLayout(4,1,10,10));
-
-      mainFrame.add(headerLabel);
-      mainFrame.add(txtpathToSearch);
-      mainFrame.add(controlPanel);
-      mainFrame.setVisible(true);  
-   }
-
-   void showTextAreaDemo(){
-      headerLabel.setText("Reordena Videos"); 
-
-      JLabel  commentlabel= new JLabel("Log:", JLabel.CENTER);
-
-      /*final JTextArea commentTextArea = 
-      *   new JTextArea("This is a Swing tutorial "
-      *   +"to make GUI application in Java.",5,20);
-      */
-      commentTextArea = new JTextArea("This is a Swing tutorial to make GUI application in Java.",20,50);
-
-      JScrollPane scrollPane = new JScrollPane(commentTextArea);   
-      lbcntvideos = new JLabel("Progress: 0",JLabel.CENTER);
-
-      JButton showButton = new JButton("Ordenar");
+      JButton showButton = new JButton("Ordenar NOW");
 
       showButton.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {     
         	 initwalk=true;
+        	 
          }
       }); 
-
-      controlPanel.add(commentlabel);
-      controlPanel.add(scrollPane);        
+      logPanel = new JPanel();
+      controlPanel = new JPanel();
+      headerPanel = new JPanel();
+      //controlPanel.setLayout(new FlowLayout());
+      //headerPanel.setLayout(new FlowLayout(3,5,10));
+      headerPanel.setLayout(new GridLayout(0,1));
+      controlPanel.setLayout(new GridLayout(0,1));
+      logPanel.setLayout(new GridLayout(2,2));
+      headerPanel.add(headerLabel);
+      headerPanel.add(headerLabel2);
+      headerPanel.add(headerLabel3);
+      
+      controlPanel.add(txtpathToSearch);
+      mainFrame.add(headerPanel);
+      mainFrame.add(controlPanel);      
       controlPanel.add(showButton);
+      
+      //mainFrame.pack();
+      mainFrame.setVisible(true);  
+   }
+
+   void showTextAreaDemo(){
+      headerLabel.setText("REORDENAR VIDEOS"); 
+      headerLabel2.setText("Launcher diari a las 4:00 AM"); 
+      headerLabel3.setText("Status: "); 
+
+      commentTextArea = new JTextArea("empty for the moment",20,50);
+
+      JScrollPane scrollPane = new JScrollPane(commentTextArea);   
+      lbcntvideos = new JLabel("Progress: 0/00000",JLabel.CENTER);
+
+
+
+      
+      logPanel.add(scrollPane); 
+      logPanel.add(scrollPane); 
+      
+      mainFrame.add(logPanel);
       controlPanel.add(lbcntvideos);
-      mainFrame.pack();
+      
+      //mainFrame.pack();
       mainFrame.setVisible(true);  
    }
 }
