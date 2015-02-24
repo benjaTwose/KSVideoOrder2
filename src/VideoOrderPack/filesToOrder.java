@@ -12,59 +12,70 @@ package VideoOrderPack;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+
 import VideoOrderPack.SwingControlDemo;
+
 
 public class filesToOrder {
 
 	
 	public static String baseDirw ;
 	public static int cntmove, cntfiles;
-	public static SwingControlDemo swingControlDemo = new SwingControlDemo();
+	public static SwingControlDemo swingControl = new SwingControlDemo();
+	public static Boolean initializedw = false;
 	
-	
-    public static void mine2() {
-    	
-    	
-        // SwingControlDemo  swingControlDemo = new SwingControlDemo();      
-       // swingControlDemo.showTextAreaDemo();
-        swingControlDemo.commentTextArea.setText(" ### INI REORDER ###" +"\n");
-    	
-       	
-   
-      		 walkin(new File(baseDirw));
-
-    	
-    	System.out.println(" ### END REORDER ###" );
-    	swingControlDemo.commentTextArea.append(" ### END REORDER ###" +"\n");
-    }
- 
-	
+    /*
+     * 
+     * */
     public static void main(String[] args) {
-    	
-    	
-        // SwingControlDemo  swingControlDemo = new SwingControlDemo();      
-        swingControlDemo.showTextAreaDemo();
-        swingControlDemo.commentTextArea.setText(" ### INI REORDER ###" +"\n");
-    	
-    	try {
-    	if ((baseDirw = args[0])!= null) {
-      		 walkin(new File(baseDirw));
-    	
-    	}
-    	System.out.println(" ### END REORDER ###" );
-    	swingControlDemo.commentTextArea.append(" ### END REORDER ###" +"\n");
-    	
-    	}
-    	
-    	catch (Exception e) {
-			// TODO Auto-generated catch block
-			System.out.println("### ERROR: " );
-			swingControlDemo.commentTextArea.append("ERROR:" +e + "\n");
-			e.printStackTrace();
-			
-		}
+    	swingControl.showTextAreaDemo();
+    	do{
+    		filesToOrder.doWorksWalk();
+    	}while(true);
     }
- 
+    
+    
+    /*
+     * 
+     * */
+	public static void doWorksWalk() {
+
+		do{
+	    	initializedw = swingControl.initwalk;
+	    	baseDirw = swingControl.txtpathToSearch.getText();
+	    	 System.out.print(".");
+		}while (initializedw==false);
+
+			try {
+				System.out.print("1");
+	    	if (baseDirw != null && initializedw ) {
+	    		swingControl.commentTextArea.setText(" ### INI REORDER ###" +"\n");
+	    		cntmove=0;
+	    		cntfiles=0;
+	      		 walkin(new File(baseDirw));
+	    	     System.out.println(" ### END REORDER ###" );
+	    	     swingControl.commentTextArea.append(" ### END REORDER ###" +"\n");
+	    	}
+	
+			initializedw=false;
+			swingControl.initwalk=false;
+	    	}
+	    	
+	    	catch (Exception e) {
+
+				System.out.println("### ERROR: " );
+				swingControl.commentTextArea.append("ERROR:" +e + "\n");
+				e.printStackTrace();
+				initializedw=false;
+				swingControl.initwalk=false;
+	    	}	
+
+	}
+	
+	
+    /*
+     * 
+     * */
 	
 	public static void walkin(File dir) {
 
@@ -81,7 +92,9 @@ public class filesToOrder {
         if (listFile != null) {
             for (int i = 0; i < listFile.length; i++) {
             	cntfiles++;
-            	swingControlDemo.lbcntvideos.setText("Progress: "+ cntmove+" / " + cntfiles);
+            	swingControl.lbcntvideos.setText("Progress: "+ cntmove+" / " + cntfiles);
+            	Thread.yield();
+            	
                 if (listFile[i].isDirectory()) {
                     walkin(listFile[i]);
                     //System.out.println("CHANGE DIR --- ");
@@ -118,8 +131,7 @@ public class filesToOrder {
 	 
 	 
 	                        newPathVideo[i] = baseDirw + "\\" + pathsACA[i]+ "\\" + pathsNumV[i]+ "\\" +pathsName[i]; 
-	                        //kk if (newPathVideo[i] != paths[i])
-	                        //kk {
+
 	                        	try {
 	                        		pathDest = Paths.get(newPathVideo[i]);
 	                        		if (pathDest.toString().compareTo(listFile[i].toPath().toString()) != 0 ){
@@ -135,7 +147,7 @@ public class filesToOrder {
 								 catch (Exception e) {
 									// TODO Auto-generated catch block
 									System.out.printf("### ERROR When move %s\t->\t%s\n",paths[i],newPathVideo[i]);
-									swingControlDemo.commentTextArea.append("ERROR:" +paths[i] +"\n");
+									swingControl.commentTextArea.append("ERROR:" +paths[i] +"\n");
 									// e.printStackTrace();
 									
 								 }
@@ -145,13 +157,15 @@ public class filesToOrder {
                     		e.printStackTrace();
                     }
                     
-                }
-            }
+                  }
+               }
            
-        
             }
-           }
+        }
 	}
+
+
+
 	
 
 	  

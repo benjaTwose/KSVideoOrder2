@@ -3,7 +3,6 @@ package VideoOrderPack;
 
 import java.awt.*;
 import java.awt.event.*;
-//import java.io.File;
 
 import javax.swing.*;
  
@@ -14,6 +13,8 @@ public class SwingControlDemo {
    private JPanel controlPanel;
    public JTextArea commentTextArea;
    public JLabel lbcntvideos;
+   public boolean initwalk=false; 
+   public JTextField txtpathToSearch;
 
    public SwingControlDemo(){
       prepareGUI();
@@ -34,18 +35,16 @@ public class SwingControlDemo {
             System.exit(0);
          }        
       });    
-      headerLabel = new JLabel("",JLabel.CENTER);        
-      //statusLabel = new JLabel("",JLabel.CENTER);  
+      headerLabel = new JLabel("",JLabel.CENTER);  
+      txtpathToSearch = new JTextField("D:\\FTPVideos");
 
-
-      //statusLabel.setSize(350,100);
-      
       
       controlPanel = new JPanel();
       controlPanel.setLayout(new FlowLayout());
       //controlPanel.setLayout(new GridLayout(4,1,10,10));
 
       mainFrame.add(headerLabel);
+      mainFrame.add(txtpathToSearch);
       mainFrame.add(controlPanel);
       mainFrame.setVisible(true);  
    }
@@ -64,18 +63,17 @@ public class SwingControlDemo {
       JScrollPane scrollPane = new JScrollPane(commentTextArea);   
       lbcntvideos = new JLabel("Progress: 0",JLabel.CENTER);
 
-      JButton showButton = new JButton("Show");
+      JButton showButton = new JButton("Ordenar");
 
       showButton.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {     
-            //statusLabel.setText( commentTextArea.getText());   
-        	 filesToOrder.mine2();
+        	 initwalk=true;
          }
       }); 
 
       controlPanel.add(commentlabel);
       controlPanel.add(scrollPane);        
-      //controlPanel.add(showButton);
+      controlPanel.add(showButton);
       controlPanel.add(lbcntvideos);
       mainFrame.pack();
       mainFrame.setVisible(true);  
